@@ -39,3 +39,23 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+// error handler
+app.use(function(err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+});
+
+// Database setup
+const mongoose = require('mongoose');
+const mongoURI = 'mongodb+srv://makereddit2357:makereddit2357@cluster0.z6wqc.mongodb.net/make-reddit-db?retryWrites=true&w=majority';
+
+mongoose.connect(mongoURI)
+mongoose.Promise = global.Promise;
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
