@@ -6,12 +6,29 @@ const Room = require('../models/room');
 
 // Rooms index
 router.get('/', (req, res, next) => {
-  // TODO
+	Room.find({}, 'topic', function(err, rooms) {
+		if(err) {
+			console.error(err);
+		} else {
+			res.render('rooms/index', { rooms: rooms });
+		}
+	});
 });
 
 // Rooms new
 router.get('/new', auth.requireLogin, (req, res, next) => {
     res.render('rooms/new');	
+});
+
+// Rooms create
+router.post('/', auth.requireLogin, (req, res, next) => {
+	let room = new Room(req.body);
+
+	room.save(function(err, room) {
+		if(err) { console.error(err) };
+
+		return res.redirect('/rooms');
+	});
 });
 
 // Rooms show
@@ -29,9 +46,5 @@ router.post('/:id', auth.requireLogin, (req, res, next) => {
   // TODO
 });
 
-// Rooms create
-router.post('/', auth.requireLogin, (req, res, next) => {
-  // TODO
-});
 
 module.exports = router;
