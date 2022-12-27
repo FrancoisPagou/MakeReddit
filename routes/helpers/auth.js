@@ -5,6 +5,8 @@ exports.requireLogin = (req, res, next) => {
         let err = new Error('You must log in to view this page');
         err.status = 401;
 
+        return next(err);
+
         return res.redirect('/login');
     }
 }
