@@ -14,3 +14,8 @@ main {
 form {
   max-width: 20em;
 }
+
+#logo{
+	text-decoration: none;
+	color: white;
+}
